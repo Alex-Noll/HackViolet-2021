@@ -1,4 +1,4 @@
-# HackViolet 2021
+# *HackViolet 2021*
 ## PURA - **Pantry Utilizing Recipe App**
 ## **Group Members:** *Amber Clauss, Alex Noll, Claire Holmes, & Rose Stanphill*
 
@@ -189,4 +189,7 @@ class Recipe(Resource):
 api.add_resource(RecipeList, '/recipes')
 api.add_resource(Recipe, '/recipe/<string:identifier>')
 ```
-To explain our code above (*no comments, whoops, that's my fault*), we used a database as mentioned, each entry had multiple arguments, one for each of our required goals. We were able to get this API working on a local instance, but in the process of moving it to our Google Cloud VM Instance we realized that we were in over our heads and didn't have all of the necessary dependencies running the same way we did on our local instance.
+To explain our code above (*no comments, whoops, that's my fault - Alex*), we used a database as mentioned, each entry had multiple arguments, one for each of our required goals. We were able to get this API working on a local instance, but in the process of moving it to our Google Cloud VM Instance we realized that we were in over our heads and didn't have all of the necessary dependencies running the same way we did on our local instance.
+
+## **Conclusion**
+24 hours later, we've made a locally running app that accomplishes most of what we've set out to do. While we weren't able to accomplish every goal to our initial scope, we still had lots of run competing in this hackathon, thank you for the opportunity and your time!
