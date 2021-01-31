@@ -52,7 +52,7 @@ class RecipeList(Resource):
         shelf[args['identifier']] = args
 
         return {'message': 'Recipe added', 'data': args}, 201
-class Device(Resource):
+class Recipe(Resource):
     def get(self, identifier):
         shelf = get_db()
 
