@@ -1,49 +1,9 @@
 import tkinter as tk
+from tkinter import *
+from tkinter.ttk import *
+import webbrowser
 
-root = tk.Tk()
-
-v = tk.IntVar()
-
-tk.Label(root, 
-        text="Choose any dietary restrictions:",
-        justify = tk.LEFT,
-        padx = 20).pack()
-
-tk.Radiobutton(root, 
-               text="None",
-               padx = 20, 
-               variable=v, 
-               value=1).pack(anchor=tk.W)
-tk.Radiobutton(root, 
-               text="Gluten Free",
-               padx = 20, 
-               variable=v, 
-               value=2).pack(anchor=tk.W)
-tk.Radiobutton(root, 
-               text="Vegetarian",
-               padx = 20, 
-               variable=v, 
-               value=3).pack(anchor=tk.W)
-tk.Radiobutton(root, 
-               text="Vegan",
-               padx = 20, 
-               variable=v, 
-               value=4).pack(anchor=tk.W)
-
-def show_recipes():
-    top2 = TopLevel()
-    top2.mainloop()
-   #tkMessageBox.showinfo( "Hello Python", "Hello World")
-
-confirm = tk.Button(root, text ="Find me recipes!", command = show_recipes)
-
-confirm.pack()
-
-root.mainloop()
-
-print(v.get())
-
-
+#A list of dictionaries that represent recipes
 recipes = [
     {'id': 0,
      'title': 'Gluten Free Waffles',
@@ -69,28 +29,74 @@ recipes = [
      'url': 'https://themodernproper.com/walnut-and-lentil-bolognese'
     }]
 
+def callback(url):
+    webbrowser.open_new(url)
 
-#@app.route('/api/v1/resources/recipes', methods=['GET'])
-def api_id():
-    # Check if a tag was provided as part of the URL.
-    # If tag is provided, assign it to a variable.
-    # If no ID is provided, display all recipes.
-    if 'tag' in request.args:
-        tag = request.args['tag']
-    else:
-        return jsonify(recipes)
+root = tk.Tk()
 
+v = tk.StringVar(value='none')
+
+
+tk.Label(root, 
+        text="Choose any dietary restrictions:",
+        justify = tk.LEFT,
+        padx = 20).pack()
+
+tk.Radiobutton(root, 
+               text="None",
+               padx = 20, 
+               variable=v, 
+               value='none').pack(anchor=tk.W)
+tk.Radiobutton(root, 
+               text="Gluten Free",
+               padx = 20, 
+               variable=v, 
+               value='gluten free').pack(anchor=tk.W)
+tk.Radiobutton(root, 
+               text="Vegetarian",
+               padx = 20, 
+               variable=v, 
+               value='vegetarian').pack(anchor=tk.W)
+tk.Radiobutton(root, 
+               text="Vegan",
+               padx = 20, 
+               variable=v, 
+               value='vegan').pack(anchor=tk.W)
+
+def show_recipes():
+    print(v.get())
+    new_window = Toplevel(root)
+    results_list = find_recipes(v.get())
+    print(results_list)
+    for result in results_list:
+        tk.Label(new_window,text=result['title'],
+                 font=('Helvetica 14 bold'), fg='blue').pack()
+        tk.Label(new_window,text=result['tags'],
+                 justify = tk.LEFT).pack()
+        link1 = Label(new_window, text="Go to recipe", cursor="hand2")
+        link1.pack()
+        link1.bind("<Button-1>", lambda e: callback(result['url']))
+
+    
+def find_recipes(restriction):
+    
     # Create an empty list for results
     results = []
 
+    if restriction == 'none':
+        for recipe in recipes:
+            results.append(recipe)
+        return results
+            
     # Loop through the data and match results that fit the requested tag.
     for recipe in recipes:
         print(recipe.get('tags'))
-        if tag in recipe.get('tags'):
+        if restriction in recipe.get('tags'):
             results.append(recipe)
+    return results
 
-    # Use the jsonify function from Flask to convert list of
-    # Python dictionaries to the JSON format.
-    return jsonify(results)
+confirm = tk.Button(root, text ="Find me recipes!", command = show_recipes)
 
-#app.run()
+confirm.pack()
+
+root.mainloop()
