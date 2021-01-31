@@ -1,100 +1,49 @@
-#HackViolet 2021
+# HackViolet 2021
+## PURA - **Pantry Utilizing Recipe App**
+## **Group Members:** *Amber Clauss, Alex Noll, Claire Holmes, & Rose Stanphill*
 
-# Recipe Filtering Service
+### Abstract
+Our group sought to make an app that could take user input in the form of ingredients and dietary restrictions and produce recipes that used the ingredients that users input and matched the dietary restrictions users selected.
 
-## Usage
+Our goal for the project was to provide filters for:
+1. Vegan diets, 
+2. Vegetarian diets, 
+3. Gluten free diets, 
+4. And lastly, diets restricted by budget to represent various minority eating groups. 
 
-All responses will have the form
+Along with these goals, we wanted users to be able to input specific ingredients they already had and wanted to make the app web based on the Google Cloud Platform. These goals we were unable to meet within the time of the competition
 
-```json
-{
-    "data": "String or integer value",
-    "message": "Successful/Not Successful"
-}
-```
+### **The Working Code**
 
-Subsequent response definitions will only detail the expected value of the `data field`
+Our code makes use of a dictionary of recipes containing arguments for each, specifying if a recipe is vegetarian, vegan, gluten free, or otherwise. Along with this, each entry contains a comprehensive list of all ingredients required and a link to a website containing more information about that recipe.
 
-### List all recipes
-
-**Definition**
-
-`GET /recipes`
-
-**Response**
-
-- `200 OK` on success
-
-```json
-[
-    {
-        "recipe_title": "Chicken Nuggies",
-        "gluten_free": "No",
-        "vegetarian": "No",
-        "vegan": "No"
+```python
+recipes = [
+    {'id': 0,
+     'title': 'Gluten Free Waffles',
+     'ingredients': ['eggs', 'baking flour(gluten free)', 'baking soda',
+                     'salt', 'sugar', 'vanilla extract', 'butter', 'milk'],
+     'tags': ['gluten free', 'vegetarian'],
+     'url': 'https://www.pinterest.com/pin/5559199530451854/'
     },
-    {
-        "recipe_title": "Choccy Milk",
-        "gluten_free": "Yes",
-        "vegetarian": "Yes",
-        "vegan": "No"
-    }
-]
+    {'id': 1,
+     'title': "Easy Lentil Shepherd's Pie",
+     'ingredients': ['brown lentils', 'vegetable broth', 'olive oil', 'onion',
+                     'mushrooms', 'carrot', 'celery', 'frozen peas', 'flour',
+                     'red wine', 'vegan worcestershire sauce', 'tomato paste',
+                     'parsley', 'salt', 'pepper', 'mashed potatoes'],
+     'tags': ['vegetarian', 'vegan'],
+     'url': 'https://www.spendwithpennies.com/easy-lentil-shepherds-pie-vegetarian/' 
+    },
+    {'id': 2,
+     'title': 'Walnut and Lentil Bolognese',
+     'ingredients': ['olive oil', 'carrots', 'celery', 'onion', 'walnuts',
+                     'lentils', 'marinara sauce', 'pasta'],
+     'tags': ['vegan'],
+     'url': 'https://themodernproper.com/walnut-and-lentil-bolognese'
+    }]
 ```
 
-### Registering a new recipe
 
-**Definition**
 
-`POST /recipes`
-
-**Arguments**
-
-- `"recipe_title":string` a unique name for this recipe
-- `"gluten_free":string` if this recipe is gluten free
-- `"vegetarian":string` if this recipe is vegetarian
-- `"vegan":string` if this recipe is vegan
-
-If a recipe with the given recipe title already exists, the existing recipe will be overwritten.
-
-**Response**
-
-- `201 Created` on success
-
-```json
-{
-    "recipe_title": "Mac and Cheese",
-    "gluten_free": "No",
-    "vegetarian": "No",
-    "vegan": "No"
-}
-```
-
-## Lookup recipe details
-
-`GET /recipe/<recipe_title>`
-
-**Response**
-
-- `404 Not Found` if the recipe does not exist
-- `200 OK` on success
-
-```json
-{
-    "recipe_title": "Mac and Cheese",
-    "gluten_free": "No",
-    "vegetarian": "No",
-    "vegan": "No"
-}
-```
-
-## Delete a recipe
-
-**Definition**
-
-`DELETE /recipes/<recipe_title>`
-
-**Response**
-
-- `404 Not Found` if the recipe does not exist
-- `204 No Content` on success
+ 
