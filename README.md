@@ -6,20 +6,21 @@
 Our group sought to make an app that could take user input in the form of ingredients and dietary restrictions and produce recipes that used the ingredients that users input and matched the dietary restrictions users selected.
 #### Our Goal
 Our goal for the project was to provide filters for:
-1. Vegan diets, 
-2. Vegetarian diets, 
-3. Gluten free diets, 
-4. And lastly, diets restricted by budget to represent various minority eating groups. 
+1. Vegan diets,
+2. Vegetarian diets,
+3. Gluten free diets,
+4. And lastly, diets restricted by budget to represent various minority eating groups.
 
 Along with these goals, we wanted users to be able to input specific ingredients they already had and wanted to make the app web based on the Google Cloud Platform. These goals we were unable to meet within the time of the competition
 
 #### Stakeholders
-Stakeholders for this app include but are not limited to: organic grocery stores, restaurants, and low-income households. The intent of this program is to provide this demographic with the opportunity of healthy eating, while minimizing the hassle and cost of their dietary restrictions. 
+Stakeholders for this app include but are not limited to: organic grocery stores, restaurants, and low-income households. The intent of this program is to provide this demographic with the opportunity of healthy eating, while minimizing the hassle and cost of their dietary restrictions.
 
 
 ### **The Working Code**
 
-Our code makes use of a dictionary of recipes containing arguments for each, an identifier for each recipe, and then arguments specifying if a recipe is vegetarian, vegan, gluten free, or otherwise. Along with this, each entry contains a comprehensive list of all ingredients required and a link to a website containing more information about that recipe. 
+Our code makes use of a dictionary of recipes containing arguments for each, an identifier for each recipe, and then arguments specifying if a recipe is vegetarian, vegan, gluten free, or otherwise. Along with this, each entry contains a comprehensive list of all ingredients required and a link to a website containing more information about that recipe.
+
 Dictionary code block shown below:
 ```python
 #A list of dictionaries that represent recipes
@@ -38,7 +39,7 @@ recipes = [
                      'red wine', 'vegan worcestershire sauce', 'tomato paste',
                      'parsley', 'salt', 'pepper', 'mashed potatoes'],
      'tags': ['vegetarian', 'vegan'],
-     'url': 'https://www.spendwithpennies.com/easy-lentil-shepherds-pie-vegetarian/' 
+     'url': 'https://www.spendwithpennies.com/easy-lentil-shepherds-pie-vegetarian/'
     },
     {'id': 2,
      'title': 'Walnut and Lentil Bolognese',
@@ -66,10 +67,10 @@ def show_recipes():
     new_window.title('Recipes')
     #Returns the list of recipes to be displayed
     results_list = find_recipes(v.get())
-    
+
     #Loops through the results list and prints them in the new window
     for result in results_list:
-        
+
         tk.Label(new_window,text=result['title'],
                  font=('Times 14 bold'), fg='blue').pack()
         #If there are no tags, indicate it does not fit any of the available restrictions
@@ -85,7 +86,7 @@ def show_recipes():
         link1.pack()
         link1.bind("<Button-1>", lambda e: callback(result['url']))
 
-    
+
 #Finds recipes based on dietary restrictions
 def find_recipes(restriction):
     # Create an empty list for results
@@ -96,7 +97,7 @@ def find_recipes(restriction):
         for recipe in recipes:
             results.append(recipe)
         return results
-            
+
     # Loop through the data and match results that fit the restriction
     for recipe in recipes:
         print(recipe.get('tags'))
@@ -114,6 +115,7 @@ root.mainloop()
 
 ### **The non-working/unfinished code**
 As mentioned earlier in the abstract, our group sought to make a web-based API on the Google Cloud Platform, we set up a VM instance in the compute engine, and made the beginnings of a web-based API using pycharm. Our web-based API makes use of a database as opposed to a dictionary. We were able to get working GET & POST requests to and from our webAPI on a locally-running instance, but did not have enough time to implement this on our VM on the Google Cloud Platform
+
 Our webAPI code is shown below:
 ```python
 #import os
@@ -170,7 +172,7 @@ class RecipeList(Resource):
         shelf[args['identifier']] = args
 
         return {'message': 'Recipe added', 'data': args}, 201
-class Device(Resource):
+class Recipe(Resource):
     def get(self, identifier):
         shelf = get_db()
 
@@ -187,6 +189,4 @@ class Device(Resource):
 api.add_resource(RecipeList, '/recipes')
 api.add_resource(Recipe, '/recipe/<string:identifier>')
 ```
-
-
- 
+To explain our code above (*no comments, whoops, that's my fault*), we used a database as mentioned, each entry had multiple arguments, one for each of our required goals. We were able to get this API working on a local instance, but in the process of moving it to our Google Cloud VM Instance we realized that we were in over our heads and didn't have all of the necessary dependencies running the same way we did on our local instance.
